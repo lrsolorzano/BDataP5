@@ -8,18 +8,16 @@ import java.io.IOException;
 /**
  * Created by lsolorzano on 3/25/2017.
  */
-public class TwitterReplyReducer extends Reducer<Text, IntWritable, Text, IntWritable>  {
-
+public class TwitterReplyReducer extends Reducer<Text, Text, Text, Text> {
     @Override
-    protected void reduce(Text key, Iterable<IntWritable> values, Context context)
+    protected void reduce(Text key, Iterable<Text> values, Context context)
             throws IOException, InterruptedException {
 
-        int count = 0;
-
-        for (IntWritable value : values){
-            count += value.get();
+        java.lang.StringBuilder listado= new java.lang.StringBuilder();
+        for (Text value : values){
+            listado.append("," + value.toString());
         }
-        context.write(key, new IntWritable(count));
+        context.write(key, new Text(listado.toString().toString()));
     }
 }
 
