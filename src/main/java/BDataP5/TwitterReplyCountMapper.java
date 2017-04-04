@@ -1,6 +1,5 @@
 package BDataP5;
 
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -10,8 +9,7 @@ import java.io.IOException;
 /**
  * Created by lsolorzano on 3/25/2017.
  */
-public class TwitterReplyCountMapper extends Mapper<LongWritable, Text, LongWritable, IntWritable> {
-
+public class TwitterReplyCountMapper extends Mapper<LongWritable, Text, LongWritable, Text> {
     @Override
     public void map(LongWritable key, Text value, Mapper.Context context) throws IOException, InterruptedException {
 
@@ -19,15 +17,13 @@ public class TwitterReplyCountMapper extends Mapper<LongWritable, Text, LongWrit
 
         try {
             Status status = TwitterObjectFactory.createStatus(rawTweet);
-            long Reply_ID = status.getInReplyToUserId();
 
-            //long originaluserid = originalTweet.getUser().getId();
-
-            context.write(new Text(Long.toString(Reply_ID)), new IntWritable(1));
+            context.write(new Text(Long.toString(status.getId())), new Text(String.valueOf(status.getInReplyToUserId())));
 
         }
         catch(TwitterException e){
         }
+
     }
 }
 
