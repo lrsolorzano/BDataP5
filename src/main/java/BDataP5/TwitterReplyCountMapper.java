@@ -18,7 +18,7 @@ public class TwitterReplyCountMapper extends Mapper<LongWritable, Text, LongWrit
         try {
             Status status = TwitterObjectFactory.createStatus(rawTweet);
 
-            context.write(new Text(Long.toString(status.getId())), new Text(String.valueOf(status.getInReplyToUserId())));
+            context.write(new Text(Long.toString(status.getInReplyToStatusId())), new Text(String.valueOf(status.getId())));
 
         }
         catch(TwitterException e){
